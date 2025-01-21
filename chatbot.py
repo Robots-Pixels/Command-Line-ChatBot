@@ -1,3 +1,5 @@
+import re
+
 talkers = ["Chatbot", "Vous"]
 current_talker = talkers[0]
 frequent_questions = [
@@ -70,20 +72,17 @@ def check_bye(message):
 
 def partiular_response(message):
     # Case 1 
-    for word in ["horaire", "heure", "horaires", "heures", "ouverture", "d'ouverture"]:
-        if word in message:
-            return f"{current_talker}: Nous sommes ouverts de 9h à 18h."
-        
+    if re.search(r"(horaire|heure|horaires|heures|ouverture|d'ouverture)", message, re.IGNORECASE):
+        return f"{current_talker}: Nous sommes ouverts de 9h à 18h."
+
     # Case 2 
-    for word in ["où se trouve", "quelle est la position", "la localisation d", "la position d"]:
-        if word in message:
-            return f"{current_talker}: Nous sommes à Akapkpa"
+    if re.search(r"(où se trouve|quelle est la position|la localisation d|la position d)", message, re.IGNORECASE):
+        return f"{current_talker}: Nous sommes à Akapkpa"
         
     # Case 3: Exemple : Y a-t-il plusieurs campus pour l’université Irgib Africa ?
-    for word in ["plusieurs campus", "les campus", "les sites", "plusieurs sites"]:
-        if word in message:
-            return f"{current_talker}: Il y existe plusieurs campus dans diffrentes parties du pays et à l'intenational"
-    
+    if re.search(r"(plusieurs campus|les campus|les sites|plusieurs sites)", message, re.IGNORECASE):
+        return f"{current_talker}: Il y existe plusieurs campus dans diffrentes parties du pays et à l'intenational"
+
     else:
         return f"{current_talker}: Je ne comprends pas votre question"
     
